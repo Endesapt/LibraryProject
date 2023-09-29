@@ -1,0 +1,32 @@
+version: '3.4'
+
+networks:
+  dev:
+    driver: bridge
+services:
+  libraryproject:
+    image: ${DOCKER_REGISTRY-}libraryproject
+    depends_on:
+      - "postgres_db"
+    build:
+      context: .
+      dockerfile: LibraryProject/Dockerfile
+    networks:
+      - dev
+  postgres_db:
+    image: postgres:latest
+    container_name: postgres_db
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=employee
+    ports:
+      - "5432:5432"
+    restart: always
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - dev
+volumes:
+  postgres_data:
+
