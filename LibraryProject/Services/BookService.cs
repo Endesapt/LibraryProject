@@ -13,9 +13,9 @@ namespace webapi.Services
         {
             _context = context;
         }
-        public IEnumerable<Book> GetAllBooks()
+        public IEnumerable<Book> GetAllBooks(int limit,int skip)
         {
-            IEnumerable<Book> books = _context.Books.AsNoTracking().ToList();
+            IEnumerable<Book> books = _context.Books.AsNoTracking().Skip(skip).Take(limit).ToList();
             return books;
         }
         public Book GetBookById(string id)

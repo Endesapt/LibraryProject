@@ -1,8 +1,9 @@
 version: '3.4'
 
 networks:
-  dev:
+  db-server:
     driver: bridge
+  react-server:
 services:
   libraryproject:
     image: ${DOCKER_REGISTRY-}libraryproject
@@ -12,7 +13,8 @@ services:
       context: .
       dockerfile: LibraryProject/Dockerfile
     networks:
-      - dev
+      - db-server
+    
   postgres_db:
     image: postgres:latest
     container_name: postgres_db
@@ -26,7 +28,8 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     networks:
-      - dev
+      - db-server
 volumes:
   postgres_data:
+
 

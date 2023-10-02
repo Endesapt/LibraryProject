@@ -39,12 +39,12 @@ namespace webapi.Controllers
         }
 
         [HttpPost("adminCreate")]
-        [AllowAnonymous]
+        [Authorize(Roles ="SuperAdmin")]
         public IActionResult CreateAdmin(AuthenticateDto admin)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
             Admin newAdmin = _adminService.CreateAdmin(admin);
-            if (newAdmin == null) return BadRequest("Admin was ont created");
+            if (newAdmin == null) return BadRequest("Admin was not created");
             return Ok(newAdmin);
 
         }

@@ -33,7 +33,7 @@ namespace webapi.Controllers
             if (user == null) return BadRequest("Incorrect username or password");
             string token = _userService.CreateToken(user);
             return Ok(token);
-        }
+        }  
 
     }
 }
