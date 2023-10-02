@@ -20,9 +20,9 @@ namespace webapi.Controllers
         }
 
         [HttpGet("getAllBooks")]
-        public IActionResult GetAllBooks(int limit,int skip=0)
+        public IActionResult GetAllBooks(int page=0)
         {
-            var books = _bookService.GetAllBooks(limit,skip);
+            var books = _bookService.GetAllBooks(page);
             return Ok(books);
         }
 

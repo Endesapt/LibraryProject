@@ -60,27 +60,7 @@ namespace webapi.Services
             );
             return hashedPassword;
         }
-        public async Task<Book> CreateBook(BookDto bookDto, IFormFile file)
-        {
-            Guid id = Guid.NewGuid();
-            string ext = Path.GetExtension(file.FileName);
-            string loadPath = $"Books/{id}{ext}";
-            using (var fileStream = new FileStream(loadPath, FileMode.Create))
-            {
-                await file.CopyToAsync(fileStream);
-            }
-            Book book = new Book()
-            {
-                Author = bookDto.Author,
-                Description = bookDto.Description,
-                Title = bookDto.Title,
-                Id = Guid.NewGuid(),
-                FilePathString = $"{id}{ext}",
-            };
-            _context.Books.Add(book);
-            _context.SaveChanges();
-            return book;
-        }
+        
         public Admin CreateAdmin(AuthenticateDto admin)
         {
             string hashedPassword = hashPassword(admin.Password);

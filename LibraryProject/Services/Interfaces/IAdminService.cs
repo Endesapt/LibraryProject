@@ -7,7 +7,6 @@ namespace webapi.Services.Interfaces
     {
         public Admin Login(AuthenticateDto authDto);
         public string CreateToken(Admin admin);
-        public Task<Book> CreateBook(BookDto bookDto, IFormFile file);
         public Admin CreateAdmin(AuthenticateDto admin);
     }
 }

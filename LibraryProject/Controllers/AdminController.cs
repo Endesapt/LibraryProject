@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using webapi.Dto;
 using webapi.Models;
 using webapi.Services.Interfaces;
@@ -13,9 +14,11 @@ namespace webapi.Controllers
     public class AdminController : Controller
     {
         private readonly IAdminService _adminService;
-        public AdminController(IAdminService adminService)
+        private readonly IBookService _bookService;
+        public AdminController(IAdminService adminService, IBookService bookService)
         {
             _adminService = adminService;
+            _bookService = bookService;
         }
         [HttpPost("login")]
         [AllowAnonymous]
@@ -33,13 +36,23 @@ namespace webapi.Controllers
         {
             var file = book.File;
             if (!ModelState.IsValid) return BadRequest(ModelState);
-            Book newBook = await _adminService.CreateBook(book, file);
+            Book newBook = await _bookService.CreateBook(book, file);
             if (newBook == null) return BadRequest("Unexcpected Error");
             return Ok(newBook);
         }
+        [HttpDelete("bookDelete")]
+        public IActionResult DeleteBook(string id)
+        {
+            if (id.IsNullOrEmpty()) return BadRequest("No ID provided");
+            Book book = _bookService.DeleteBookById(id);
+            if (book == null) return BadRequest("Book with this ID does not exist");
+            return Ok(book);
+        }
 
         [HttpPost("adminCreate")]
-        [Authorize(Roles ="SuperAdmin")]
+        //[Authorize(Roles ="SuperAdmin")]
+        //Anyone can create Admins for development purposes
+        [AllowAnonymous]
         public IActionResult CreateAdmin(AuthenticateDto admin)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
