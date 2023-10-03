@@ -28,7 +28,7 @@ namespace webapi.Controllers
         {
             string userId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
             Book? book = _userService.AddBookToLibrary(userId, bookId);
-            if (book == null) return BadRequest("No book founded or this book is in ypur library");
+            if (book == null) return BadRequest("No book founded or this book is in your library");
             return Ok(book);
         }
         [HttpDelete("deleteBookFromLibrary")]
@@ -36,7 +36,7 @@ namespace webapi.Controllers
         {
             string userId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
             Book? book = _userService.DeleteBookFromLibrary(userId, bookId);
-            if (book == null) return BadRequest("User dont have this book");
+            if (book == null) return BadRequest("User don't have this book");
             return Ok(book);
         }
 

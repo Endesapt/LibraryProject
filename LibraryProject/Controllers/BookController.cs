@@ -22,6 +22,7 @@ namespace webapi.Controllers
         [HttpGet("getAllBooks")]
         public IActionResult GetAllBooks(int page=0)
         {
+            if(page<0)return BadRequest("Page must be positive integer");
             var books = _bookService.GetAllBooks(page);
             return Ok(books);
         }
